@@ -20,9 +20,13 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsTopHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -44,7 +48,6 @@ import com.example.todolist.ui.theme.TODOListTheme
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.UUID
-
 
 class MainActivity : ComponentActivity() {
 
@@ -91,6 +94,7 @@ class MainViewModel(private val context: Context) : ViewModel() {
 
     fun remove(item: Task) {
         _tasks.remove(item)
+        saveTasks()
     }
 
     fun add(item: Task) {
@@ -152,9 +156,15 @@ fun MainScreen(viewModel: MainViewModel) {
                 .weight(weight = 1f, fill = true)
         ) {
             viewModel.tasks.forEach { task ->
-                TaskView(task, onCheckedChange = { task, isDone ->
-                    viewModel.update(task, isDone)
-                })
+                TaskView(
+                    task,
+                    onCheckedChange = { task, isDone ->
+                        viewModel.update(task, isDone)
+                    },
+                    onDelete = { task ->
+                        viewModel.remove(task)
+                    }
+                )
             }
         }
         Button(
@@ -187,7 +197,11 @@ fun MainScreen(viewModel: MainViewModel) {
 }
 
 @Composable
-fun TaskView(task: Task, onCheckedChange: ((Task, Boolean) -> Unit)) {
+fun TaskView(
+    task: Task,
+    onCheckedChange: ((Task, Boolean) -> Unit),
+    onDelete: ((Task) -> Unit)
+) {
     Row(
         horizontalArrangement = Arrangement.Center
     ) {
@@ -198,6 +212,12 @@ fun TaskView(task: Task, onCheckedChange: ((Task, Boolean) -> Unit)) {
         )
         Spacer(modifier = Modifier.weight(1.0f))
         Checkbox(checked = task.isDone, onCheckedChange = { onCheckedChange(task, it) })
+        IconButton(onClick = { onDelete(task) }) {
+            Icon(
+                Icons.Filled.Close,
+                contentDescription = "Удалить задачу"
+            )
+        }
     }
 }
 
