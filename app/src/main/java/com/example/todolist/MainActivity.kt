@@ -150,21 +150,40 @@ fun MainScreen(viewModel: MainViewModel) {
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
         )
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .weight(weight = 1f, fill = true)
-        ) {
-            viewModel.tasks.forEach { task ->
-                TaskView(
-                    task,
-                    onCheckedChange = { task, isDone ->
-                        viewModel.update(task, isDone)
-                    },
-                    onDelete = { task ->
-                        viewModel.remove(task)
-                    }
+        if (viewModel.tasks.isEmpty()) {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .weight(weight = 1f, fill = true)
+            ) {
+                Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
+                Text(
+                    text = "У вас еще нет добавленных задач",
+                    style = TextStyle(fontSize = 25.sp),
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
                 )
+                Spacer(modifier = Modifier.weight(weight = 1f, fill = true))
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState())
+                    .weight(weight = 1f, fill = true)
+            ) {
+                viewModel.tasks.forEach { task ->
+                    TaskView(
+                        task,
+                        onCheckedChange = { task, isDone ->
+                            viewModel.update(task, isDone)
+                        },
+                        onDelete = { task ->
+                            viewModel.remove(task)
+                        }
+                    )
+                }
             }
         }
         Button(
