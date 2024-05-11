@@ -1,6 +1,5 @@
 package com.example.todolist.screen
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -26,19 +25,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.todolist.MainViewModel
-import com.example.todolist.R
 import com.example.todolist.Task
 import com.example.todolist.ui.theme.TODOListTheme
 import com.example.todolist.view.CreateTaskDialog
 import com.example.todolist.view.TaskView
+import java.util.UUID
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
@@ -122,8 +119,8 @@ fun MainScreen(viewModel: MainViewModel) {
             onDismiss = {
                 showDialog.value = false
             },
-            onSubmit = {
-                viewModel.add(Task(it))
+            onSubmit = { text, priority ->
+                viewModel.add(Task(text, UUID.randomUUID().toString(), priority))
                 showDialog.value = false
             }
         )

@@ -14,6 +14,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import com.example.todolist.screen.MainScreen
 import com.example.todolist.ui.theme.TODOListTheme
+import com.example.todolist.view.Priority
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.util.UUID
@@ -36,18 +37,19 @@ class MainActivity : ComponentActivity() {
 data class Task(
     val title: String,
     val id: String = UUID.randomUUID().toString(),
+    val priority: Priority,
     var initIsDone: Boolean = false
 ) {
     var isDone by mutableStateOf(initIsDone)
 
     fun convertTask(): SaveTask {
-        return  SaveTask(title, id, isDone)
+        return  SaveTask(title, id, isDone, priority)
     }
 }
 
-data class SaveTask(val title: String, val id: String, var isDone: Boolean) {
+data class SaveTask(val title: String, val id: String, var isDone: Boolean, val priority: Priority) {
     fun convertTask(): Task {
-        return Task(title, id, isDone)
+        return Task(title, id, priority, isDone)
     }
 }
 
