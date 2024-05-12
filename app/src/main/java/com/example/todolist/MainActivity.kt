@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -84,8 +85,9 @@ class MainViewModel(private val context: Context) : ViewModel() {
         val sharedPreferences: SharedPreferences =
             context.getSharedPreferences("shared preferences", MODE_PRIVATE)
         val gson = Gson()
-        val json = sharedPreferences.getString(key, null)
+        val json = sharedPreferences.getString("tasks-key", null)
         if (json != null) {
+            Log.d("test", json)
             val type = object : TypeToken<List<SaveTask>>() {}.type
             val tasks = gson.fromJson<List<SaveTask>>(json, type).map { it.convertTask() }
             _tasks.addAll(tasks)
@@ -97,9 +99,7 @@ class MainViewModel(private val context: Context) : ViewModel() {
         val editor = sharedPreferences.edit()
         val gson = Gson()
         val json = gson.toJson(tasks.map { it.convertTask() })
-        editor.putString(key, json);
+        editor.putString("tasks-key", json);
         editor.apply();
     }
-
-    private val key = "tasks-key 5"
 }

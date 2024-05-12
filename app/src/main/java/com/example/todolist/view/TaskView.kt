@@ -31,7 +31,8 @@ fun TaskView(
 ) {
     Row(
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(horizontal = 8.dp)
     ) {
         Canvas(
             modifier = Modifier
