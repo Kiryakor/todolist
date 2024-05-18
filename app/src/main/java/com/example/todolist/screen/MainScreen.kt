@@ -1,5 +1,6 @@
 package com.example.todolist.screen
 
+import MainViewModel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -39,8 +40,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.todolist.FilterType
-import com.example.todolist.MainViewModel
 import com.example.todolist.R
 import com.example.todolist.Task
 import com.example.todolist.ui.theme.TODOListTheme
@@ -152,10 +151,7 @@ fun MainScreen(viewModel: MainViewModel) {
                                     text = viewModel.filterText(),
                                     style = TextStyle(fontSize = 16.sp),
                                     modifier = Modifier.clickable {
-                                        when(viewModel.filterType.value) {
-                                            FilterType.date -> viewModel.filterType.value = FilterType.priority
-                                            FilterType.priority -> viewModel.filterType.value = FilterType.date
-                                        }
+                                        viewModel.tapOnFilter()
                                     }
                                 )
                             }

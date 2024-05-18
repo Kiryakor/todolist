@@ -1,10 +1,8 @@
 package com.example.todolist.view
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -44,16 +42,31 @@ fun TaskView(
         )
         Text(
             text = task.title.replaceFirstChar(Char::titlecase),
+            maxLines = 2,
             style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(8.dp)
+            modifier = Modifier.padding(8.dp).weight(3f),
         )
-        Spacer(modifier = Modifier.weight(1.0f))
-        Checkbox(checked = task.isDone, onCheckedChange = { onCheckedChange(task, it) })
+        Checkbox(
+            checked = task.isDone,
+            onCheckedChange = { onCheckedChange(task, it) },
+            modifier = Modifier.size(24.dp)
+        )
         IconButton(onClick = { onDelete(task) }) {
             Icon(
                 Icons.Filled.Close,
                 contentDescription = "Удалить задачу"
             )
         }
+    }
+}
+
+@Preview(showBackground = true, showSystemUi = true)
+@Composable
+fun MainScreenPreview() {
+    TODOListTheme {
+        TaskView(
+            Task("dfsfdsfsdfds adsd das da das dsa d", UUID.randomUUID().toString(), priority = Priority.first, false),
+            onCheckedChange = { _, _ -> },
+            onDelete = { _ -> })
     }
 }
