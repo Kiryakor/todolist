@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.example.todolist.screen.MainScreen
 import com.example.todolist.ui.theme.TODOListTheme
@@ -54,15 +55,32 @@ data class SaveTask(val title: String, val id: String, var isDone: Boolean, val 
     }
 }
 
+enum class FilterType {
+    date, priority
+}
 class MainViewModel(private val context: Context) : ViewModel() {
     private var _tasks = ArrayList<Task>().toMutableStateList()
+
+    var filterType = mutableStateOf(FilterType.priority)
 
     init {
         load()
     }
 
     val tasks: List<Task>
-        get() = _tasks
+        get() {
+            when(filterType.value) {
+                FilterType.date -> return _tasks
+                FilterType.priority -> return _tasks.sortedBy { it.priority }
+            }
+        }
+
+    fun filterText(): String {
+        when(filterType.value) {
+            FilterType.date -> return "по дате"
+            FilterType.priority -> return "по приоритету"
+        }
+    }
 
     fun remove(item: Task) {
         _tasks.remove(item)
