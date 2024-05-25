@@ -11,6 +11,7 @@ import androidx.compose.runtime.setValue
 import com.example.todolist.screen.MainScreen
 import com.example.todolist.ui.theme.TODOListTheme
 import com.example.todolist.view.Priority
+import java.lang.annotation.Native
 import java.util.UUID
 
 class MainActivity : ComponentActivity() {
@@ -32,17 +33,24 @@ data class Task(
     val title: String,
     val id: String = UUID.randomUUID().toString(),
     val priority: Priority,
-    var initIsDone: Boolean = false
+    var initIsDone: Boolean = false,
+    val date: Long = System.currentTimeMillis()
 ) {
     var isDone by mutableStateOf(initIsDone)
 
     fun convertTask(): SaveTask {
-        return  SaveTask(title, id, isDone, priority)
+        return  SaveTask(title, id, isDone, priority, date)
     }
 }
 
-data class SaveTask(val title: String, val id: String, var isDone: Boolean, val priority: Priority) {
+data class SaveTask(
+    val title: String,
+    val id: String,
+    var isDone: Boolean,
+    val priority: Priority,
+    val date: Long
+) {
     fun convertTask(): Task {
-        return Task(title, id, priority, isDone)
+        return Task(title, id, priority, isDone, date)
     }
 }

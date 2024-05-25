@@ -24,14 +24,14 @@ class MainViewModel(private val context: Context) : ViewModel() {
     val tasks: List<Task>
         get() {
             when(filterType.value) {
-                FilterType.date -> return _tasks
+                FilterType.date -> return _tasks.sortedBy { it.date }
                 FilterType.priority -> return _tasks.sortedBy { it.priority }
             }
         }
 
     fun filterText(): String {
         when(filterType.value) {
-            FilterType.date -> return "по дате"
+            FilterType.date -> return "по дате создания"
             FilterType.priority -> return "по приоритету"
         }
     }

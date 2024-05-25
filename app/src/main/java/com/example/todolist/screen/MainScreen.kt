@@ -196,7 +196,15 @@ fun MainScreen(viewModel: MainViewModel) {
                 showDialog.value = false
             },
             onSubmit = { text, priority ->
-                viewModel.add(Task(text, UUID.randomUUID().toString(), priority))
+                viewModel.add(
+                    Task(
+                        text,
+                        UUID.randomUUID().toString(),
+                        priority,
+                        false,
+                        System.currentTimeMillis()
+                    )
+                )
                 showDialog.value = false
             }
         )

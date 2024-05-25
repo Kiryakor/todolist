@@ -65,7 +65,7 @@ fun TaskView(
 fun MainScreenPreview() {
     TODOListTheme {
         TaskView(
-            Task("dfsfdsfsdfds adsd das da das dsa d", UUID.randomUUID().toString(), priority = Priority.first, false),
+            Task("dfsfdsfsdfds adsd das da das dsa d", UUID.randomUUID().toString(), priority = Priority.first, false, System.currentTimeMillis()),
             onCheckedChange = { _, _ -> },
             onDelete = { _ -> })
     }
