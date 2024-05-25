@@ -9,13 +9,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +49,7 @@ fun CreateTaskDialog(
 ) {
     val message = remember { mutableStateOf("") }
     var priority = remember { mutableStateOf(Priority.first) }
+    var isError = rememberSaveable { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -54,7 +59,13 @@ fun CreateTaskDialog(
             }
         },
         confirmButton = {
-            Button(onClick = { onSubmit(message.value, priority.value) }) {
+            Button(onClick = {
+                if (message.value.isNotEmpty()) {
+                    onSubmit(message.value, priority.value)
+                } else {
+                    isError.value = true
+                }
+            }) {
                 Text(text = "Сохранить")
             }
         },
@@ -70,7 +81,21 @@ fun CreateTaskDialog(
                 TextField(
                     value = message.value,
                     placeholder = { Text(text = "Название задачи") },
-                    onValueChange = { newText -> message.value = newText }
+                    supportingText = {
+                        if (isError.value) {
+                            Text(
+                                text = "Текст не может быть пустым",
+                                color = MaterialTheme.colorScheme.error
+                            )
+                        }
+                    },
+                    isError = isError.value,
+                    onValueChange = { newText ->
+                        message.value = newText
+                        if (isError.value && newText.isNotEmpty()) {
+                            isError.value = false
+                        }
+                    }
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
