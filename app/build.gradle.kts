@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.todolist"
         minSdk = 24
         targetSdk = 34
-        versionCode = 10
-        versionName = "1.4.5"
+        versionCode = 12
+        versionName = "1.4.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -10,7 +10,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
 enum class FilterType {
-    date, priority
+    date, priority, done
 }
 class MainViewModel(private val context: Context) : ViewModel() {
     private var _tasks = ArrayList<Task>().toMutableStateList()
@@ -26,6 +26,7 @@ class MainViewModel(private val context: Context) : ViewModel() {
             when(filterType.value) {
                 FilterType.date -> return _tasks.sortedBy { it.date }
                 FilterType.priority -> return _tasks.sortedBy { it.priority }
+                FilterType.done -> return  _tasks.sortedBy { it.isDone }
             }
         }
 
@@ -33,13 +34,15 @@ class MainViewModel(private val context: Context) : ViewModel() {
         when(filterType.value) {
             FilterType.date -> return "по дате создания"
             FilterType.priority -> return "по приоритету"
+            FilterType.done -> return "открытые"
         }
     }
 
     fun tapOnFilter() {
         when(filterType.value) {
             FilterType.date -> filterType.value = FilterType.priority
-            FilterType.priority -> filterType.value = FilterType.date
+            FilterType.priority -> filterType.value = FilterType.done
+            FilterType.done -> filterType.value = FilterType.date
         }
         saveTasks()
     }

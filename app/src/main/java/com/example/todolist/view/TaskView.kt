@@ -7,16 +7,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.todolist.Task
 import com.example.todolist.ui.theme.TODOListTheme
 import java.util.UUID
@@ -27,6 +32,8 @@ fun TaskView(
     onCheckedChange: ((Task, Boolean) -> Unit),
     onDelete: ((Task) -> Unit)
 ) {
+    val removeDialog = remember { mutableStateOf(false) }
+
     Row(
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
@@ -51,12 +58,33 @@ fun TaskView(
             onCheckedChange = { onCheckedChange(task, it) },
             modifier = Modifier.size(24.dp)
         )
-        IconButton(onClick = { onDelete(task) }) {
+        IconButton(onClick = { removeDialog.value = true }) {
             Icon(
                 Icons.Filled.Close,
                 contentDescription = "Удалить задачу"
             )
         }
+    }
+    if (removeDialog.value) {
+        AlertDialog(
+            onDismissRequest = {  },
+            title = { Text(text = "Удалить задачу") },
+            text = { Text("Вы уверены, что хотите удалить задачу?") },
+            confirmButton = {
+                Button({
+                    removeDialog.value = false
+                    onDelete(task)
+                }) {
+                    Text("Удалить")
+                }
+            },
+            dismissButton = {
+                Button(
+                    onClick = { removeDialog.value = false }) {
+                    Text("Отмена")
+                }
+            }
+        )
     }
 }
 

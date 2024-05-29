@@ -181,7 +181,13 @@ fun MainScreen(viewModel: MainViewModel) {
                     showDialog.value = true
                 }
             ) {
-                Text("+")
+                Image(
+                    painterResource(R.drawable.ic_plus),
+                    contentDescription = "",
+                    colorFilter = ColorFilter.tint(Color.Black),
+                    modifier = Modifier
+                        .size(28.dp)
+                )
             }
         }
         Spacer(
