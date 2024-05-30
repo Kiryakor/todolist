@@ -23,10 +23,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.todolist.R
 import com.example.todolist.ui.theme.TODOListTheme
 
 enum class Priority {
@@ -158,8 +160,11 @@ fun SelectColor(
         )
         if (isSelect) {
             Image(
-                painter = painterResource(id = android.R.drawable.checkbox_on_background),
-                contentDescription = ""
+                painterResource(R.drawable.ic_done),
+                contentDescription = "",
+                colorFilter = ColorFilter.tint(Color.Black),
+                modifier = Modifier
+                    .size(16.dp)
             )
         }
     }

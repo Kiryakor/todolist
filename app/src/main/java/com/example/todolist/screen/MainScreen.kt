@@ -47,6 +47,7 @@ import com.example.todolist.view.CreateTaskDialog
 import com.example.todolist.view.TaskView
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 import java.util.UUID
 
 @Composable
@@ -54,7 +55,7 @@ fun MainScreen(viewModel: MainViewModel) {
     val showDialog = remember { mutableStateOf(false) }
 
     val time = Calendar.getInstance().time
-    val formatter = SimpleDateFormat("EEE, d MMM yyyy")
+    val formatter = SimpleDateFormat("EEE, d MMM yyyy", Locale("ru"))
     val current = formatter.format(time)
 
     Column(
@@ -78,7 +79,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     .offset(y = 6.dp)
             )
             Text(
-                text = "ToDo List",
+                text = "Хорошего дня !",
                 color = Color.Black,
                 style = TextStyle(fontSize = 25.sp),
                 textAlign = TextAlign.Start,
