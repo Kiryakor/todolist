@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
+import com.example.todolist.Logger
 import com.example.todolist.SaveTask
 import com.example.todolist.Task
 import com.google.gson.Gson
@@ -12,7 +13,7 @@ import com.google.gson.reflect.TypeToken
 enum class FilterType {
     date, priority, done
 }
-class MainViewModel(private val context: Context) : ViewModel() {
+final class MainViewModel(private val context: Context) : ViewModel() {
     private var _tasks = ArrayList<Task>().toMutableStateList()
 
     var filterType = mutableStateOf(FilterType.priority)
@@ -48,16 +49,22 @@ class MainViewModel(private val context: Context) : ViewModel() {
     }
 
     fun remove(item: Task) {
+        Logger.getInstance().logRemoveTask()
         _tasks.remove(item)
         saveTasks()
     }
 
     fun add(item: Task) {
+        Logger.getInstance().logAddTask()
         _tasks.add(item)
         saveTasks()
     }
 
     fun update(task: Task, isDone: Boolean) {
+        if (isDone) {
+            Logger.getInstance().logDoneTask()
+        }
+
         _tasks.find { it.id == task.id }?.let { task ->
             task.isDone = isDone
         }

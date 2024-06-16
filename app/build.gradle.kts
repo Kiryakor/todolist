@@ -11,8 +11,8 @@ android {
         applicationId = "com.example.todolist"
         minSdk = 24
         targetSdk = 34
-        versionCode = 13
-        versionName = "1.5.0"
+        versionCode = 15
+        versionName = "1.5.5"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,5 +69,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
+    implementation("com.my.tracker:mytracker-sdk:3.0.+")
     implementation("com.google.code.gson:gson:2.10.1")
 }

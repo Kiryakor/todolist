@@ -40,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.CreationExtras
+import com.example.todolist.Logger
 import com.example.todolist.R
 import com.example.todolist.Task
 import com.example.todolist.ui.theme.TODOListTheme
@@ -133,6 +134,7 @@ fun MainScreen(viewModel: MainViewModel) {
                     .padding(12.dp),
                 onClick = {
                     showDialog.value = true
+                    Logger.getInstance().logAddTaskBtnTap()
                 }
             ) {
                 Image(

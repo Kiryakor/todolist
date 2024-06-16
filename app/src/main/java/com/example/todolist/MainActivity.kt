@@ -11,14 +11,18 @@ import androidx.compose.runtime.setValue
 import com.example.todolist.screen.MainScreen
 import com.example.todolist.ui.theme.TODOListTheme
 import com.example.todolist.view.Priority
-import java.lang.annotation.Native
 import java.util.UUID
+
 
 class MainActivity : ComponentActivity() {
 
     lateinit var viewModel: MainViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Logger.getInstance().setUpLogger(this)
+        Logger.getInstance().logOpenApp()
+
         enableEdgeToEdge()
         viewModel = MainViewModel(context = this)
         setContent {
